@@ -15,7 +15,11 @@ term_handler() {
 # on callback, kill the last background process, which is `tail -f /dev/null` and execute the specified handler
 trap 'kill ${!}; term_handler' SIGTERM
 
+# Starting run run
+/usr/local/bin/dynhost.sh
+
 # run application
+echo "Starting cron to run periodically..."
 crond &
 pid="$!"
 
