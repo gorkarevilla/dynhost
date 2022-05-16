@@ -40,8 +40,26 @@ And then run your new image:
 docker run -e DYNHOST_DOMAIN_NAME -e DYNHOST_LOGIN -e DYNHOST_PASSWORD dynhost
 ```
 
-
 ### Docker-compose
+
+You can define your own docker-compose file, like this one:
+
+```yaml
+version: '3'
+    services:
+        dynhost:
+            image: gorkarevilla/dynhost:latest
+            environment:
+                DYNHOST_DOMAIN_NAME: "myhost.mydomain.com"
+                DYNHOST_LOGIN: "my_user"
+                DYNHOST_PASSWORD: "my_Sup3rSecreTPasS7"
+            restart: unless-stopped
+```
 
 ### Locally
 
+It can be run locally the script with:
+```sh
+./dynhost.sh
+```
+You can set environment variable DYNHOST_PATH_LOG to set a different log file.

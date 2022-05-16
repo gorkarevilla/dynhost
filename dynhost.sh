@@ -9,9 +9,9 @@ HOST=${DYNHOST_DOMAIN_NAME}
 LOGIN=${DYNHOST_LOGIN}
 PASSWORD=${DYNHOST_PASSWORD}
 
-PATH_LOG=/var/log/dynhost.log
+DYNHOST_PATH_LOG=${DYNHOST_PATH_LOG:-/var/log/dynhost.log}
 
-echo "[$(date -R)]: Starting dynhost..." >> $PATH_LOG
+echo "[$(date -R)]: Starting dynhost..." >> $DYNHOST_PATH_LOG
 # Get current IPv4 and corresponding configured
 HOST_IP=$(dig +short $HOST A)
 CURRENT_IP=$(curl -m 5 -4 ifconfig.co 2>/dev/null)
@@ -23,12 +23,12 @@ fi
 # Update dynamic IPv4, if needed
 if [ -z $CURRENT_IP ] || [ -z $HOST_IP ]
 then
-  echo "[$(date -R)]: No IP retrieved" >> $PATH_LOG
+  echo "[$(date -R)]: No IP retrieved" >> $DYNHOST_PATH_LOG
 else
   if [ "$HOST_IP" != "$CURRENT_IP" ]; then
     RES=$(curl -m 5 -L --location-trusted --user "$LOGIN:$PASSWORD" "https://www.ovh.com/nic/update?system=dyndns&hostname=$HOST&myip=$CURRENT_IP")
-    echo "[$(date -R)]: IPv4 has changed - request to OVH DynHost: $RES" >> $PATH_LOG
+    echo "[$(date -R)]: IPv4 has changed - request to OVH DynHost: $RES" >> $DYNHOST_PATH_LOG
   else
-    echo "[$(date -R)]: IP already up to date, nothing to do here..." >> $PATH_LOG
+    echo "[$(date -R)]: IP already up to date, nothing to do here..." >> $DYNHOST_PATH_LOG
   fi
 fi
