@@ -8,7 +8,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /usr/local/bin/dynhost.sh
 RUN chmod +x /entrypoint.sh
 
-ARG CRON_SCHEDULE="00/15 * * * *"
+ARG CRON_SCHEDULE="*/15 * * * *"
 
 # Generate logfile
 RUN touch /var/log/dynhost.log
